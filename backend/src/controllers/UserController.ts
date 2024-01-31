@@ -54,10 +54,41 @@ export default {
         }
     },
 
+    async listDeletedUsers (request: Request, response: Response) {
+        try {
+            const deletedUsers = await prisma.user.findMany({
+                where: {
+                    deleted_at: {
+                        not: null
+                    },
+                },
+                orderBy: {
+                    created_at: 'desc'
+                }
+            });
+
+            if (!deletedUsers) {
+                return response.status(204).json({
+                    error: false,
+                    message: 'No deleted users found.'
+                })
+            }
+
+            return response.status(200).json(deletedUsers)
+
+        } catch (error) {
+            return response.status(500).json({message:error.message})
+        }
+    },
+
     async findUser (request: Request, response: Response) {
         try {
             const { id } = request.params;
         
+        if (typeof(id) !== 'number'){
+            return response.status(400).json({message: 'Invalid ID'})
+        }
+
         const user = await prisma.user.findUnique( { where: {id: Number(id), deleted_at: null} } );
 
         if (!user) {
@@ -81,6 +112,10 @@ export default {
         try {
 
             const { id, name, email, phone} = request.body;
+
+            if (typeof(id) !== 'number'){
+                return response.status(400).json({message: 'Invalid ID'})
+            }
 
             const userExist = await prisma.user.findUnique( { where: {id: Number(id),deleted_at: null} } );
 

@@ -37,22 +37,37 @@
 #### Create new user: POST
 http://localhost:8000/createUser
 
+```body = {name: xxx, email: xxx, phone: xxx}```
+
 #### List all users: GET
 http://localhost:8000/listUsers/
 
 #### Find user by ID: GET
-http://localhost:8000/listUsers/1
+http://localhost:8000/listUsers/${id}
+
+#### Search Users: GET
+http://localhost:8000/searchUsers/${searchParams}
+
+#### Filter Users: GET
+<http://localhost:8000/filterUsers/?sortBy=${order}&filterStart=${startDate}&filterEnd=${endDate}>
+
+#### List all deleted users: GET
+<http://localhost:8000/listDeletedUsers/>
 
 #### Update user information by ID: PUT 
-http://localhost:8000/updateUser/555
+http://localhost:8000/updateUser/
+
+```body = {id: xxx, name: xxx, phone: xxx}```
 
 #### Delete user by ID: DELETE
-http://localhost:8000/deleteUser/1
+http://localhost:8000/deleteUser/${id}
 
 This method does not delete the user registry in the database, instead it switches a flag in the registry that soft deletes the user and prevents it from being accessed by other methods.
 
 
 ## Frontend
+
+### Setup steps
 
 ```cd frontend```
 

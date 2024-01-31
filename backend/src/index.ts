@@ -24,6 +24,7 @@ app.get('/listUsers/:id', UserController.findUser);
 
 app.get('/searchUsers/:name', UserController.searchUsers);
 app.get('/filterUsers/', UserController.filterUsers);
+app.get('/listDeletedUsers', UserController.listDeletedUsers);
 
 app.put('/updateUser', UserController.updateUser);
 
